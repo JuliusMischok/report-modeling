@@ -1,4 +1,4 @@
-package de.mischok.academy.reportmodeling.domain;
+package de.mischok.academy.reportmodeling.data.domain;
 
 import static java.util.Objects.requireNonNull;
 

@@ -1,4 +1,4 @@
-package de.mischok.academy.reportmodeling.data;
+package de.mischok.academy.reportmodeling.data.repository;
 
 import static java.util.Objects.requireNonNull;
 
@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import de.mischok.academy.reportmodeling.domain.Person;
-import de.mischok.academy.reportmodeling.domain.Status;
-import de.mischok.academy.reportmodeling.domain.Task;
+import de.mischok.academy.reportmodeling.data.domain.Person;
+import de.mischok.academy.reportmodeling.data.domain.Status;
+import de.mischok.academy.reportmodeling.data.domain.Task;
 
 /**
  * Supplies a set of tasks for demonstration purposes.
@@ -59,7 +59,7 @@ public class TaskRepository {
 	 * Returns all tasks.
 	 * @return list of all tasks
 	 */
-	public static List<Task> findAll() {
+	public List<Task> findAll() {
 		return Collections.unmodifiableList(tasks);
 	}
 	
@@ -68,8 +68,8 @@ public class TaskRepository {
 	 * @param filters the filters to be applied
 	 * @return filtered list of tasks
 	 */
-	@SafeVarargs
-	public static List<Task> findAll(Predicate<Task>...filters) {
+	@SuppressWarnings("unchecked")
+	public List<Task> findAll(Predicate<Task>...filters) {
 		requireNonNull(filters);
 		
 		Predicate<Task> predicate = Arrays.stream(filters)

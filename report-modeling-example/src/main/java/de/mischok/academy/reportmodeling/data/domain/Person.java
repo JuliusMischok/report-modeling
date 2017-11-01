@@ -1,4 +1,4 @@
-package de.mischok.academy.reportmodeling.domain;
+package de.mischok.academy.reportmodeling.data.domain;
 
 import static java.util.Objects.requireNonNull;
 
@@ -9,6 +9,8 @@ public class Person {
 	private final String firstname;
 	private final String lastname;
 	private final String email;
+	
+	// FIXME: final in all POJOs
 	
 	private Person(String firstname, String lastname, String email) {
 		requireNonNull(firstname);

@@ -13,8 +13,10 @@ import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -25,6 +27,8 @@ import de.mischok.academy.reportmodeling.report.domain.TaskModel;
  * Provides the "translation" of a report model into an excel workbook.
  */
 public class ExcelReportBuilder {
+	
+	private static final int MAX_COLUMN_INDEX = 3;
 	
 	private final XSSFWorkbook workbook;
 
@@ -62,6 +66,7 @@ public class ExcelReportBuilder {
 		normalBoldStyleDate = workbook.createCellStyle();
 		normalBoldStyleDate.setFont(normalBoldFont);
 		normalBoldStyleDate.setDataFormat(workbook.createDataFormat().getFormat("mm/dd/yy"));
+		normalBoldStyleDate.setAlignment(HorizontalAlignment.LEFT);
 	}
 	
 	/**
@@ -90,6 +95,10 @@ public class ExcelReportBuilder {
         
 		sheet = writeReportHeaderToSheet(sheet, model);
 		sheet = writeReportTasksToSheet(sheet, model.getTasks());
+		
+		for (int i=0; i<=MAX_COLUMN_INDEX; i++) {
+			sheet.autoSizeColumn(i);
+		}
 	}
 
 	private XSSFSheet writeReportHeaderToSheet(XSSFSheet sheet, ReportModel model) {
@@ -102,7 +111,8 @@ public class ExcelReportBuilder {
 		Cell intervalHeadline = first.createCell(0);
 		intervalHeadline.setCellValue("Report interval");
 		intervalHeadline.setCellStyle(headerStyle);
-		// FIXME: colspan
+		
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 3));
 		
 		Cell fromTitle = second.createCell(0);
 		Cell fromContent = second.createCell(1);
@@ -118,7 +128,7 @@ public class ExcelReportBuilder {
 		toTitle.setCellValue("To");
 		toTitle.setCellStyle(normalBoldStyle);
 		
-		fromContent.setCellValue(buildDate(model.getTo()));
+		toContent.setCellValue(buildDate(model.getTo()));
 		toContent.setCellStyle(normalBoldStyleDate);
 		
 		return sheet;

@@ -10,8 +10,6 @@ public class Person {
 	private final String lastname;
 	private final String email;
 	
-	// FIXME: final in all POJOs
-	
 	private Person(String firstname, String lastname, String email) {
 		requireNonNull(firstname);
 		requireNonNull(lastname);
